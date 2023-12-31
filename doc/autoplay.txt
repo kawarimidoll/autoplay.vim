@@ -1,0 +1,117 @@
+*autoplay.txt* Operate Vim automatically
+
+Author: kawarimidoll
+License: MIT https://github.com/kawarimidoll/autoplay.vim/blob/main/LICENSE
+
+==============================================================================
+INTRODUCTION                                           *autoplay-introduction*
+
+    *autoplay* is a plugin to operate Vim automatically.
+
+==============================================================================
+INTERFACE                                                 *autoplay-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS                                                 *autoplay-functions*
+
+autoplay#reserve({opts})                                  *autoplay#reserve()*
+
+    Reserve autoplay.
+      - scripts
+        (REQUIRED)
+        List
+        See |autoplay-scripts| for details.
+      - name
+        (default: '')
+        Autoplay name.
+      - wait
+        (default: 0)
+        Wait times each script run by millisecond.
+      - spell_out
+        (default: v:false)
+        Flag to type the keys one character at a time.
+      - remap
+        (default: v:true)
+        Flag to use key mappings.
+
+example:
+>
+    call autoplay#reserve(
+        \ 'wait': 40,
+        \ 'spell_out': 1,
+        \ 'scripts': [
+        \   "iHello world!\<esc>",
+        \ ],
+        \ })
+<
+
+autoplay#run([{name}])                                        *autoplay#run()*
+
+    Run autoplay by name.
+    (name default: '')
+
+------------------------------------------------------------------------------
+AUTOPLAY-SCRIPTS                                            *autoplay-scripts*
+
+                                                     *autoplay-scripts-string*
+
+    You can define keys you want to emulate by string.
+
+    example:
+>
+    "iHello world!\<esc>"
+<
+
+call                                                   *autoplay-scripts-call*
+
+    Run function.
+    You can define args by |autoplay-scripts-args|.
+
+    example:
+>
+    { "call": "setline", "args": ['.', 'ok'] }
+<
+
+expr                                                   *autoplay-scripts-expr*
+
+    Run function and use the returned value.
+    You can define args by |autoplay-scripts-args|.
+
+    example:
+>
+    { "expr": "repeat", "args": ['i', 3] },
+<
+
+args                                                   *autoplay-scripts-args*
+
+    Define args for |autoplay-scripts-call| or |autoplay-scripts-expr| by
+    |list|.
+
+    example:
+>
+    { "expr": "repeat", "args": ['i', 3] },
+<
+
+exec                                                   *autoplay-scripts-exec*
+
+    Run Ex commands.
+
+    example:
+>
+    { "exec": "echomsg 'hello'" },
+<
+text                                                   *autoplay-scripts-text*
+
+    Almost same as |autoplay-scripts-string|, but not affected by `spell_out` flag.
+
+    example:
+>
+    { "text": "iHello world!\<esc>" },
+<
+==============================================================================
+FAQ                                                             *autoplay-faq*
+
+==============================================================================
+CHANGELOG                                                 *autoplay-changelog*
+
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
