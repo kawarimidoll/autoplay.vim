@@ -19,7 +19,7 @@ autoplay#reserve({opts})                                  *autoplay#reserve()*
     Reserve autoplay.
       - scripts
         (REQUIRED)
-        List
+        Script list to autoplay.
         See |autoplay-scripts| for details.
       - name
         (default: '')
@@ -100,14 +100,27 @@ exec                                                   *autoplay-scripts-exec*
 >
     { "exec": "echomsg 'hello'" },
 <
+
 text                                                   *autoplay-scripts-text*
 
-    Almost same as |autoplay-scripts-string|, but not affected by `spell_out` flag.
+    Almost same as |autoplay-scripts-string|, but not affected by `spell_out`
+    flag.
 
     example:
 >
     { "text": "iHello world!\<esc>" },
 <
+
+wait                                                   *autoplay-scripts-wait*
+
+    Wait time (in milliseconds) before the next process.
+    Takes precedence over the `wait` option in |autoplay#reserve()|.
+
+    example:
+>
+    { "wait": 1000 },
+<
+
 ==============================================================================
 FAQ                                                             *autoplay-faq*
 
