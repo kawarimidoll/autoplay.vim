@@ -28,7 +28,7 @@ function s:spell_out(item) abort
 endfunction
 
 let s:recursive_feed_list = []
-let s:recall = "\<cmd>call " .. expand('<SID>') .. "autoplay()\<cr>"
+let s:fmt = "%s\<cmd>call timer_start(%s,{->" .. expand('<SID>') .. "autoplay()})\<cr>"
 function s:autoplay() abort
   if empty(s:recursive_feed_list)
     return
@@ -51,7 +51,7 @@ function s:autoplay() abort
     return s:autoplay()
   endif
 
-  call timer_start(wait, {->feedkeys(feed .. s:recall, s:flag)})
+  call feedkeys(printf(s:fmt, feed, wait), s:flag)
 endfunction
 
 function autoplay#run(name = '') abort
@@ -65,6 +65,7 @@ function autoplay#run(name = '') abort
   endif
   if s:spell_out
     call map(scripts, {_,v -> s:spell_out(v) })
+    call flatten(scripts, 1)
   endif
   let s:recursive_feed_list = scripts
   call s:autoplay()
