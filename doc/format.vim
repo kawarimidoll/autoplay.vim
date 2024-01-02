@@ -14,9 +14,9 @@ function Doc_fmt() abort
   silent %s/\v^\s*(\*\S+\*)$/\=repeat(' ', max([1, 78-len(submatch(1))])) .. submatch(1)/e
 
   " インデント
-  let skip_pat = '[-*~=<>]$'
+  let newline_pat = '^\S.*[*]$'
+  let skip_pat = '[-~=<>]$\|' .. newline_pat
   let skip_hls = ['helpExample']
-  let newline_pat = '[*]$'
   let blanks = 4
   let i = 7
   while i < line('$')

@@ -17,55 +17,67 @@ FUNCTIONS                                                 *autoplay-functions*
 autoplay#reserve({opts})                                  *autoplay#reserve()*
 
     Reserve autoplay.
-      - scripts
+    {opts} is a dictionary with these fields:
+      - scripts                                        *autoplay-opts-scripts*
         (REQUIRED)
-        Script list to autoplay.
+        List of scripts to autoplay.
         See |autoplay-scripts| for details.
-      - name
+      - name                                              *autoplay-opts-name*
         (default: '')
-        Autoplay name.
-      - wait
+        Name of the autoplay.
+        If the same name is specified, the old one is overwritten.
+      - wait                                              *autoplay-opts-wait*
         (default: 0)
-        Wait times each script run by millisecond.
-      - spell_out
+        Wait time (in milliseconds) between executions of each script.
+      - spell_out                                    *autoplay-opts-spell_out*
         (default: v:false)
-        Flag to type the keys one character at a time.
+        Flag if the |autoplay-scripts-string| should be executed one character
+        at a time.
       - remap
         (default: v:true)
-        Flag to use key mappings.
+        Flag if mapping is used or not.
 
-example:
+    example:
 >
-    call autoplay#reserve(
+    call autoplay#reserve({
         \ 'wait': 40,
         \ 'spell_out': 1,
         \ 'scripts': [
-        \   "iHello world!\<esc>",
+        \   "iAutoplay start!\<esc>",
+        \   "oHello world!\<esc>",
         \ ],
         \ })
 <
 
 autoplay#run([{name}])                                        *autoplay#run()*
 
-    Run autoplay by name.
-    (name default: '')
+    Run autoplay by |autoplay-opts-name|.
+    ({name} default: '')
 
 ------------------------------------------------------------------------------
 AUTOPLAY-SCRIPTS                                            *autoplay-scripts*
 
+    This section describes the values that can be set for
+    |autoplay-opts-scripts|.
+    It is an array whose elements are the following items.
+
                                                      *autoplay-scripts-string*
 
-    You can define keys you want to emulate by string.
+    Basically, you specify the key you want to emulate as a |string|.
+    If you want to use non-letter keys, use |<>|.
 
     example:
 >
     "iHello world!\<esc>"
 <
 
+    You can also use |dict| with the following keys.
+
 call                                                   *autoplay-scripts-call*
 
-    Run function.
-    You can define args by |autoplay-scripts-args|.
+    Run function using |call()|.
+    Functions can be specified using function name or |Funcref|.
+    Arguments can be passed using |autoplay-scripts-args| (optional).
 
     example:
 >
@@ -74,8 +86,9 @@ call                                                   *autoplay-scripts-call*
 
 expr                                                   *autoplay-scripts-expr*
 
-    Run function and use the returned value.
-    You can define args by |autoplay-scripts-args|.
+    Run function and use its return value using |call()|.
+    Functions can be specified using function name or |Funcref|.
+    Arguments can be passed using |autoplay-scripts-args| (optional).
 
     example:
 >
@@ -92,9 +105,18 @@ args                                                   *autoplay-scripts-args*
     { "expr": "repeat", "args": ['i', 3] },
 <
 
+eval                                                   *autoplay-scripts-eval*
+
+    Evaluate string and use its result using |eval()|.
+
+    example:
+>
+    { "eval": "1 + 2" },
+<
+
 exec                                                   *autoplay-scripts-exec*
 
-    Run Ex commands.
+    Execute Ex commands using |execute()|.
 
     example:
 >
@@ -103,26 +125,48 @@ exec                                                   *autoplay-scripts-exec*
 
 text                                                   *autoplay-scripts-text*
 
-    Almost same as |autoplay-scripts-string|, but not affected by `spell_out`
-    flag.
+    Almost the same as |autoplay-scripts-string|, but unaffected by
+    |autoplay-opts-spell_out|. In other words, it is always executed at once.
+    This is useful to emulate normal mode commands that have multiple keys.
 
     example:
 >
-    { "text": "iHello world!\<esc>" },
+    { "text": "gUip" },
 <
 
 wait                                                   *autoplay-scripts-wait*
 
-    Wait time (in milliseconds) before the next process.
-    Takes precedence over the `wait` option in |autoplay#reserve()|.
+    Wait time (in milliseconds) before the next script.
+    It takes precedence over |autoplay-opts-wait|.
 
     example:
 >
     { "wait": 1000 },
 <
 
+    It can be used with other keys.
+
+    example:
+>
+    { "exec": "help index", "wait": 1000  },
+<
+
 ==============================================================================
 FAQ                                                             *autoplay-faq*
+
+What is the priority of the keys in scripts?~
+
+    |autoplay-scripts| are processed at the following priority levels.
+
+      - |autoplay-scripts-string|
+      - |autoplay-scripts-call|
+      - |autoplay-scripts-expr|
+      - |autoplay-scripts-eval|
+      - |autoplay-scripts-exec|
+      - |autoplay-scripts-text|
+
+    For example, if both `call` and `exec` are specified, only `call` will be
+    executed.
 
 ==============================================================================
 CHANGELOG                                                 *autoplay-changelog*
