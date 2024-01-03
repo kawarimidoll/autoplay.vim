@@ -58,7 +58,7 @@ function autoplay#run(name = '') abort
   let config = s:configs[a:name]
   let s:wait = get(config, 'wait', 0)
   let s:spell_out = get(config, 'spell_out', v:false)
-  let s:flag = 'i' .. (get(config, 'remap', v:true) ? 'm' : 'n')
+  let s:flag = get(config, 'remap', v:true) ? 'm' : 'n'
   let scripts = s:ensure_list(config.scripts)->copy()
   if empty(scripts)
     return
