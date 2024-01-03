@@ -33,15 +33,35 @@ autoplay#reserve({opts})                                  *autoplay#reserve()*
         (default: v:false)
         Flag if the |autoplay-scripts-string| should be executed one character
         at a time.
-      - remap
+      - remap                                            *autoplay-opts-remap*
         (default: v:true)
         Flag if mapping is used or not.
+      - logger                                          *autoplay-opts-logger*
+        (default: {_->0})
+        Callback to check the executed script, called for each items of
+        |autoplay-opts-scripts|.
+        NOTE: When using |:echo|, etc., care must be taken not to cause
+        |hit-enter-prompt|. |'shortmess'| or |v:echospace| may be useful.
 
     example:
 >
     call autoplay#reserve({
         \ 'wait': 40,
         \ 'spell_out': 1,
+        \ 'logger': {item -> execute('echomsg ' .. string(item), '')},
+        \ 'scripts': [
+        \   "iAutoplay start!\<esc>",
+        \   "oHello world!\<esc>",
+        \ ],
+        \ })
+<
+
+    example (for Neovim):
+>
+    call autoplay#reserve({
+        \ 'wait': 40,
+        \ 'spell_out': 1,
+        \ 'logger': {item -> luaeval('vim.notify(_A[1])', [item])},
         \ 'scripts': [
         \   "iAutoplay start!\<esc>",
         \   "oHello world!\<esc>",

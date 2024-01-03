@@ -51,6 +51,8 @@ function s:autoplay() abort
     return s:autoplay()
   endif
 
+  call call(s:logger, [feed])
+
   call feedkeys(printf(s:fmt, feed, wait), s:flag)
 endfunction
 
@@ -59,6 +61,7 @@ function autoplay#run(name = '') abort
   let s:wait = get(config, 'wait', 0)
   let s:spell_out = get(config, 'spell_out', v:false)
   let s:flag = get(config, 'remap', v:true) ? 'm' : 'n'
+  let s:logger = get(config, 'logger', {_->0})
   let scripts = s:ensure_list(config.scripts)->copy()
   if empty(scripts)
     return
