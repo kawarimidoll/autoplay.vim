@@ -43,7 +43,8 @@ function s:autoplay() abort
         \ : ''
   let wait = s:get(proc, 'wait', s:wait)
 
-  if s:is_list(feed)
+  if s:is_list(feed) || s:is_dict(feed)
+    let feed = s:ensure_list(feed)
     if s:spell_out
       call map(feed, {_,v -> s:spell_out(v) })
     endif
