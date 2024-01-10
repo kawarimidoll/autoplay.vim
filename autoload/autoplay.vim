@@ -5,7 +5,7 @@ let s:has_key = {item, key -> s:is_dict(item) && has_key(item, key)}
 let s:get = {item, key, default -> s:has_key(item, key) ? item[key] : default}
 let s:ensure_list = {item -> s:is_list(item) ? item : [item]}
 
-function s:spell_out(item) abort
+function s:str_split(item) abort
   if !s:is_string(a:item) || strcharlen(a:item) < 2
     return a:item
   endif
@@ -46,7 +46,7 @@ function s:autoplay() abort
   if s:is_list(feed) || s:is_dict(feed)
     let feed = s:ensure_list(feed)
     if s:spell_out
-      call map(feed, {_,v -> s:spell_out(v) })
+      call map(feed, {_,v -> s:str_split(v) })
     endif
     call extend(s:recursive_feed_list, feed, 0)
     " use timer to avoid maxfuncdepth
@@ -69,7 +69,7 @@ function autoplay#run(name = '') abort
     return
   endif
   if s:spell_out
-    call map(scripts, {_,v -> s:spell_out(v) })
+    call map(scripts, {_,v -> s:str_split(v) })
     call flatten(scripts, 1)
   endif
   let s:recursive_feed_list = scripts
