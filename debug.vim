@@ -31,7 +31,7 @@ call autoplay#reserve({
       \ 'wait': 60,
       \ 'spell_out': 1,
       \ 'remap': v:false,
-      \ 'key': 'demo',
+      \ 'name': 'demo',
       \ 'scripts': [
       \   ":call autoplay#run()",
       \ ],
