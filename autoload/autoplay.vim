@@ -49,7 +49,8 @@ function s:autoplay() abort
       call map(feed, {_,v -> s:spell_out(v) })
     endif
     call extend(s:recursive_feed_list, feed, 0)
-    return s:autoplay()
+    " use timer to avoid maxfuncdepth
+    return timer_start(0, {->s:autoplay()})
   endif
 
   call call(s:logger, [feed])
