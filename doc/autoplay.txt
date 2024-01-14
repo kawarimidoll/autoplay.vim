@@ -168,7 +168,7 @@ wait                                                   *autoplay-scripts-wait*
 
     example:
 >
-    { "exec": "help index", "wait": 1000  },
+    { "exec": "help index", "wait": 1000 },
 <
 
 ==============================================================================
