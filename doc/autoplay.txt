@@ -143,6 +143,16 @@ exec                                                   *autoplay-scripts-exec*
     { "exec": "echomsg 'hello'" },
 <
 
+break                                                 *autoplay-scripts-break*
+
+    Run function and finish autoplay if the return value is true.
+    Functions can be specified using function name or |Funcref|.
+
+    example:
+>
+    { "break": {-> winnr('$') != 1 } },
+<
+
 text                                                   *autoplay-scripts-text*
 
     Almost the same as |autoplay-scripts-string|, but unaffected by
@@ -199,6 +209,13 @@ What is the priority of the keys in scripts?~
 
     For example, if both `call` and `exec` are specified, only `call` will be
     executed.
+
+Is there a way to skip autoplay under certain conditions?~
+
+    Use |autoplay-scripts-expr| and return an empty string if the condition is
+    not met.
+    If you want to terminate autoplay under certain conditions, use
+    |autoplay-scripts-break|.
 
 ==============================================================================
 CHANGELOG                                                 *autoplay-changelog*

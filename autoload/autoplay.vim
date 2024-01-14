@@ -34,6 +34,10 @@ function s:autoplay() abort
     return
   endif
   let proc = remove(s:recursive_feed_list, 0)
+  if s:has_key(proc, 'break') && call(proc.break, [])
+    return
+  endif
+
   let feed = !s:is_dict(proc) ? proc
         \ : has_key(proc, 'call') ? [call(proc.call, get(proc, 'args', [])), ''][1]
         \ : has_key(proc, 'expr') ? call(proc.expr, get(proc, 'args', []))
