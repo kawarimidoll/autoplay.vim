@@ -55,14 +55,15 @@ function s:autoplay() abort
 
   call call(s:logger, [feed])
 
-  call feedkeys(printf(s:fmt, feed, wait), s:flag)
+  let flag = s:get(proc, 'remap', s:remap) ? 'm' : 'n'
+  call feedkeys(printf(s:fmt, feed, wait), flag)
 endfunction
 
 function autoplay#run(name = '') abort
   let config = s:configs[a:name]
   let s:wait = get(config, 'wait', 0)
   let s:spell_out = get(config, 'spell_out', v:false)
-  let s:flag = get(config, 'remap', v:true) ? 'm' : 'n'
+  let s:remap = get(config, 'remap', v:true)
   let s:logger = get(config, 'logger', {_->0})
   let scripts = s:ensure_list(config.scripts)->copy()
   if empty(scripts)

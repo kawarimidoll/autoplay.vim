@@ -171,6 +171,18 @@ wait                                                   *autoplay-scripts-wait*
     { "exec": "help index", "wait": 1000 },
 <
 
+remap                                                 *autoplay-scripts-remap*
+
+    Flag if mapping is used or not.
+    It takes precedence over |autoplay-opts-remap|.
+    This is useful when you want to enable |autoplay-opts-remap| partially,
+    such as when emulating |<Plug>| map.
+
+    example:
+>
+    { "text": "<Plug>(something-plug-map)", "remap": v:true },
+<
+
 ==============================================================================
 FAQ                                                             *autoplay-faq*
 
