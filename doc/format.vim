@@ -1,7 +1,6 @@
 function Doc_fmt() abort
   if &filetype != 'help'
-    echomsg 'run first: setfiletype help'
-    return
+    setfiletype help
   endif
 
   let save_cursor = getcurpos()
