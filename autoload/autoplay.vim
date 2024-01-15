@@ -5,12 +5,13 @@ let s:has_key = {item, key -> s:is_dict(item) && has_key(item, key)}
 let s:get = {item, key, default -> s:has_key(item, key) ? item[key] : default}
 let s:ensure_list = {item -> s:is_list(item) ? item : [item]}
 
+" almost same as split(item, '\zs')
+" but handle special characters with code <80>k? like <bs>
 function s:str_split(item) abort
   if !s:is_string(a:item) || strcharlen(a:item) < 2
     return a:item
   endif
 
-  " to split special characters with code <80>k? like <bs>
   let chars = split(a:item, '\zs')
   let prefix = split("\<bs>", '\zs')[0:1]->join('')
   let result = []
@@ -25,6 +26,13 @@ function s:str_split(item) abort
     let i += 1
   endwhile
   return result
+endfunction
+
+function s:spell_out_list(list) abort
+  let list = a:list
+  call map(list, {_,v -> s:str_split(v) })
+  call flatten(list, 1)
+  return list
 endfunction
 
 let s:recursive_feed_list = []
@@ -50,7 +58,7 @@ function s:autoplay() abort
   if s:is_list(feed) || s:is_dict(feed)
     let feed = s:ensure_list(feed)
     if s:spell_out
-      call map(feed, {_,v -> s:str_split(v) })
+      let feed = s:spell_out_list(feed)
     endif
     call extend(s:recursive_feed_list, feed, 0)
     " use timer to avoid maxfuncdepth
@@ -74,8 +82,7 @@ function autoplay#run(name = '') abort
     return
   endif
   if s:spell_out
-    call map(scripts, {_,v -> s:str_split(v) })
-    call flatten(scripts, 1)
+    let scripts = s:spell_out_list(scripts)
   endif
   let s:recursive_feed_list = scripts
   call s:autoplay()
