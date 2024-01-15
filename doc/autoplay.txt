@@ -37,9 +37,15 @@ autoplay#reserve({opts})                                  *autoplay#reserve()*
         (default: v:true)
         Flag if mapping is used or not.
       - logger                                          *autoplay-opts-logger*
-        (default: {_->0})
-        Callback to check the executed script, called for each items of
-        |autoplay-opts-scripts|.
+        (default: { -> 0 })
+        Callback to check the executed script, called with two arguments.
+        The first argument is the value calculated and fed. This is always
+        |String|, but may be blank or unprintable.
+        The second argument is the item of |autoplay-opts-scripts|. The type
+        depends on the user's settings (probably |String| or |Dictionary|), so
+        be careful when printing.
+        NOTE: If |autoplay-opts-spell_out| is enabled, this function is called
+        for each character of |autoplay-scripts-string|.
         NOTE: When using |:echo|, etc., care must be taken not to cause
         |hit-enter-prompt|. |'shortmess'| or |v:echospace| may be useful.
 

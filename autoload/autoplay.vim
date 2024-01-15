@@ -65,7 +65,7 @@ function s:autoplay() abort
     return timer_start(0, {->s:autoplay()})
   endif
 
-  call call(s:logger, [feed])
+  call call(s:logger, [feed, proc])
 
   let flag = s:get(proc, 'remap', s:remap) ? 'm' : 'n'
   call feedkeys(printf(s:fmt, feed, wait), flag)
