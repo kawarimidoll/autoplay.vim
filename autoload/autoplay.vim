@@ -35,15 +35,21 @@ function s:spell_out_list(list) abort
   return list
 endfunction
 
+function s:do_user(event_name) abort
+  if exists('#User#autoplay_' .. a:event_name)
+    execute 'doautocmd <nomodeline> User autoplay_' .. a:event_name
+  endif
+endfunction
+
 let s:recursive_feed_list = []
 let s:fmt = "%s\<cmd>call timer_start(%s,{->" .. expand('<SID>') .. "autoplay()})\<cr>"
 function s:autoplay() abort
   if empty(s:recursive_feed_list)
-    return
+    return s:do_user('finish')
   endif
   let proc = remove(s:recursive_feed_list, 0)
   if s:has_key(proc, 'break') && call(proc.break, [])
-    return
+    return s:do_user('break')
   endif
 
   let feed = !s:is_dict(proc) ? proc
@@ -91,6 +97,7 @@ function autoplay#run(name = '') abort
     let scripts = s:spell_out_list(scripts)
   endif
   let s:recursive_feed_list = scripts
+  call s:do_user('start')
   call s:autoplay()
 endfunction
 

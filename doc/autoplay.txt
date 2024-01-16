@@ -12,6 +12,27 @@ INTRODUCTION                                           *autoplay-introduction*
 INTERFACE                                                 *autoplay-interface*
 
 ------------------------------------------------------------------------------
+HOOKS                                                         *autoplay-hooks*
+
+    example:
+>
+    autocmd User autoplay_finish echo "autoplay finished"
+<
+
+autoplay_start                                 *autoplay-hooks-autoplay_start*
+
+    Triggered just before an autoplay starts.
+
+autoplay_finish                               *autoplay-hooks-autoplay_finish*
+
+    Triggered when an autoplay is successfully completed.
+
+autoplay_break                                 *autoplay-hooks-autoplay_break*
+
+    Triggered when an autoplay is finished by |autoplay-scripts-break|.
+    At this time, |autoplay-hooks-autoplay_finish| is not triggered.
+
+------------------------------------------------------------------------------
 FUNCTIONS                                                 *autoplay-functions*
 
 autoplay#reserve({opts})                                  *autoplay#reserve()*
