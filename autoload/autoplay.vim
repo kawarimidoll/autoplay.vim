@@ -56,10 +56,16 @@ function s:autoplay() abort
   let wait = s:get(proc, 'wait', s:wait)
 
   if s:is_list(feed) || s:is_dict(feed)
+        \ || (s:is_string(feed) && s:has_key(proc, 'spell_out'))
     let feed = s:ensure_list(feed)
-    if s:spell_out
+    if s:get(proc, 'spell_out', s:spell_out)
       let feed = s:spell_out_list(feed)
     endif
+
+    " ensure dict & apply wait
+    call map(feed, {_, v -> s:is_string(v) ? {'text': v} : v })
+    call map(feed, {_, v -> s:is_dict(v) ? extend({'wait': wait}, v) : v })
+
     call extend(s:recursive_feed_list, feed, 0)
     " use timer to avoid maxfuncdepth
     return timer_start(0, {->s:autoplay()})

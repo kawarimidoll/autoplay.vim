@@ -162,7 +162,8 @@ break                                                 *autoplay-scripts-break*
 text                                                   *autoplay-scripts-text*
 
     Almost the same as |autoplay-scripts-string|, but unaffected by
-    |autoplay-opts-spell_out|. In other words, it is always executed at once.
+    |autoplay-opts-spell_out|. If you use spell_out feature on it, use
+    |autoplay-scripts-spell_out|.
     This is useful to emulate normal mode commands that have multiple keys.
 
     example:
@@ -189,6 +190,23 @@ wait                                                   *autoplay-scripts-wait*
     " above is the same as below
     { "exec": "help index" },
     { "wait": 1000 },
+<
+
+spell_out                                         *autoplay-scripts-spell_out*
+
+    Flag if current item should be executed one character at a time.
+    It takes precedence over |autoplay-opts-spell_out|.
+    When used with |autoplay-scripts-wait|, it is applied to each character.
+
+    example:
+>
+    { 'text': 'slow', 'wait': 2000, 'spell_out': v:true },
+
+    " above is the same as below
+    { 'text': 's', 'wait': 2000 },
+    { 'text': 'l', 'wait': 2000 },
+    { 'text': 'o', 'wait': 2000 },
+    { 'text': 'w', 'wait': 2000 },
 <
 
 remap                                                 *autoplay-scripts-remap*
