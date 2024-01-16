@@ -10,7 +10,6 @@ function Doc_fmt() abort
 
   " 見出しタグ位置を調整
   silent %s/\v^(.*\S)\s*(\*\S+\*)$/\=submatch(1) .. repeat(' ', max([1, 78-len(submatch(1) .. submatch(2))])) .. submatch(2)/e
-  silent %s/\v^\s*(\*\S+\*)$/\=repeat(' ', max([1, 78-len(submatch(1))])) .. submatch(1)/e
 
   " インデント
   let newline_pat = '^\S.*[*]$'
@@ -38,6 +37,9 @@ function Doc_fmt() abort
     endif
     let i += 1
   endwhile
+
+  " 見出しタグ位置を調整
+  silent %s/\v^\s*(\*\S+\*)$/\=repeat(' ', max([1, 78-len(submatch(1))])) .. submatch(1)/e
 
   " 連続空行を削除
   silent %s/^\n\zs\n\+//e

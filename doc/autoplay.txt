@@ -172,7 +172,7 @@ exec                                                   *autoplay-scripts-exec*
 
 break                                                 *autoplay-scripts-break*
 
-    Run function and finish autoplay if the return value is true.
+    Run function |call()| and finish autoplay if the return value is |TRUE|.
     Functions can be specified using function name or |Funcref|.
 
     example:
