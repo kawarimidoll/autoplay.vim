@@ -185,6 +185,10 @@ wait                                                   *autoplay-scripts-wait*
     example:
 >
     { "exec": "help index", "wait": 1000 },
+
+    " above is the same as below
+    { "exec": "help index" },
+    { "wait": 1000 },
 <
 
 remap                                                 *autoplay-scripts-remap*
@@ -222,6 +226,10 @@ Is there a way to skip autoplay under certain conditions?~
     not met.
     If you want to terminate autoplay under certain conditions, use
     |autoplay-scripts-break|.
+
+Is there a way to remove autoplay once registered?~
+
+    No such functionality is provided because not intended.
 
 ==============================================================================
 CHANGELOG                                                 *autoplay-changelog*
