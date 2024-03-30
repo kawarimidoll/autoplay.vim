@@ -239,7 +239,7 @@ remap                                                 *autoplay-scripts-remap*
 
     example:
 >
-    { "text": "<Plug>(something-plug-map)", "remap": v:true },
+    { "text": "\<Plug>(something-plug-map)", "remap": v:true },
 <
 
 ==============================================================================
