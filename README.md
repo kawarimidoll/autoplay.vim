@@ -9,7 +9,7 @@ https://github.com/kawarimidoll/autoplay.vim/assets/8146876/bb246db0-8812-4183-a
 ```vim
 call autoplay#reserve({
     \ 'wait': 40,
-    \ 'spell_out': 1,
+    \ 'spell_out': v:true,
     \ 'logger': {item -> execute('echomsg ' .. string(item), '')},
     \ 'scripts': [
     \   "iHello world!\<esc>",
