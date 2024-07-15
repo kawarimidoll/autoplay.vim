@@ -270,6 +270,13 @@ Is there a way to remove autoplay once registered?~
 
     No such functionality is provided because not intended.
 
+Certain commands that echo output do not work.~
+
+    This plugin uses |feedkey()| after each |autoplay-scripts|.
+    Therefore, |hit-enter-prompt| is automatically discarded.
+    This affects to specific commands that echo output.
+    e.g. |:messages| |:buffers|
+
 ==============================================================================
 CHANGELOG                                                 *autoplay-changelog*
 
