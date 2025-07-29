@@ -154,7 +154,7 @@ args                                                   *autoplay-scripts-args*
 
 eval                                                   *autoplay-scripts-eval*
 
-    Evaluate string and use its result using |eval()|.
+    Evaluate a string and use its result using |eval()|.
 
     example:
 >
@@ -183,8 +183,8 @@ break                                                 *autoplay-scripts-break*
 text                                                   *autoplay-scripts-text*
 
     Almost the same as |autoplay-scripts-string|, but unaffected by
-    |autoplay-opts-spell_out|. If you use spell_out feature on it, use
-    |autoplay-scripts-spell_out|.
+    |autoplay-opts-spell_out|. If you want to use the spell_out feature on it,
+    use |autoplay-scripts-spell_out|.
     This is useful to emulate normal mode commands that have multiple keys.
 
     example:
@@ -215,7 +215,7 @@ wait                                                   *autoplay-scripts-wait*
 
 spell_out                                         *autoplay-scripts-spell_out*
 
-    Flag if current item should be executed one character at a time.
+    Flag if the current item should be executed one character at a time.
     It takes precedence over |autoplay-opts-spell_out|.
     When used with |autoplay-scripts-wait|, it is applied to each character.
 
@@ -268,13 +268,13 @@ Is there a way to skip autoplay under certain conditions?~
 
 Is there a way to remove autoplay once registered?~
 
-    No such functionality is provided because not intended.
+    No such functionality is provided because it's not intended.
 
 Certain commands that echo output do not work.~
 
     This plugin uses |feedkey()| after each |autoplay-scripts|.
     Therefore, |hit-enter-prompt| is automatically discarded.
-    This affects to specific commands that echo output.
+    This affects specific commands that echo output.
     e.g. |:messages| |:buffers|
 
 ==============================================================================
