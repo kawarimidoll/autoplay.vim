@@ -13,7 +13,7 @@ function s:str_split(item) abort
   endif
 
   let chars = split(a:item, '\zs')
-  let prefix = split("\<bs>", '\zs')[0:1]->join('')
+  let prefix = "\<bs>"[0:1]
   let result = []
   let i = 0
   while i < len(chars)
