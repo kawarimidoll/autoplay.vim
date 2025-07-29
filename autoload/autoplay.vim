@@ -5,6 +5,14 @@ let s:has_key = {item, key -> s:is_dict(item) && has_key(item, key)}
 let s:get = {item, key, default -> s:has_key(item, key) ? item[key] : default}
 let s:ensure_list = {item -> s:is_list(item) ? item : [item]}
 
+function s:echoerr(...) abort
+  echohl ErrorMsg
+  for str in a:000
+    echomsg '[autoplay]' str
+  endfor
+  echohl NONE
+endfunction
+
 " almost same as split(item, '\zs')
 " but handle special characters with code <80>k? like <bs>
 function s:str_split(item) abort
@@ -52,13 +60,18 @@ function s:autoplay() abort
     return s:do_user('break')
   endif
 
-  let feed = !s:is_dict(proc) ? proc
-        \ : has_key(proc, 'call') ? [call(proc.call, get(proc, 'args', [])), ''][1]
-        \ : has_key(proc, 'expr') ? call(proc.expr, get(proc, 'args', []))
-        \ : has_key(proc, 'eval') ? eval(proc.eval)
-        \ : has_key(proc, 'exec') ? [execute(proc.exec, ''), ''][1]
-        \ : has_key(proc, 'text') ? proc.text
-        \ : ''
+  try
+    let feed = !s:is_dict(proc) ? proc
+          \ : has_key(proc, 'call') ? [call(proc.call, get(proc, 'args', [])), ''][1]
+          \ : has_key(proc, 'expr') ? call(proc.expr, get(proc, 'args', []))
+          \ : has_key(proc, 'eval') ? eval(proc.eval)
+          \ : has_key(proc, 'exec') ? [execute(proc.exec, ''), ''][1]
+          \ : has_key(proc, 'text') ? proc.text
+          \ : ''
+  catch
+    call s:echoerr('Error in script execution:', v:exception, 'Script:', string(proc))
+    let feed = ''
+  endtry
   let wait = s:get(proc, 'wait', s:wait)
 
   if s:is_list(feed) || s:is_dict(feed)
@@ -84,6 +97,10 @@ function s:autoplay() abort
 endfunction
 
 function autoplay#run(name = '') abort
+  if !has_key(s:configs, a:name)
+    call s:echoerr('Config not found:', empty(a:name) ? '(default)' : a:name)
+    return
+  endif
   let config = s:configs[a:name]
   let s:wait = get(config, 'wait', 0)
   let s:spell_out = get(config, 'spell_out', v:false)
