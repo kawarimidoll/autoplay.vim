@@ -19,7 +19,60 @@ call autoplay#reserve({
 nnoremap # <cmd>call autoplay#run()<cr>
 ```
 
+<details>
+<summary>Neovim Lua</summary>
+
+```lua
+vim.fn['autoplay#reserve']({
+  wait = 40,
+  spell_out = true,
+  logger = function(item)
+    vim.notify(tostring(item))
+  end,
+  scripts = {
+    "iHello world!\\<esc>",
+  },
+})
+
+vim.keymap.set('n', '#', function() vim.fn['autoplay#run']() end)
+```
+</details>
+
 ```vim
+" Multiple presses example
+let g:autoplay_count = 0
+let s:scripts_list = [
+      \ ["iFirst line!\<esc>"],
+      \ ["oSecond Line?\<esc>"],
+      \ ["oThird line :)\<esc>"],
+      \ ]
+
+" Reserve all scripts with numbered names
+for i in range(len(s:scripts_list))
+  call autoplay#reserve({
+        \ 'name': 'phase_' .. (i + 1),
+        \ 'wait': 40,
+        \ 'spell_out': v:true,
+        \ 'scripts': s:scripts_list[i],
+        \ })
+endfor
+
+function! RunAutoplayByCount() abort
+  let g:autoplay_count = v:count > 0 ? v:count : (g:autoplay_count + 1)
+  if g:autoplay_count > len(s:scripts_list)
+    echo 'Autoplay finished!'
+    return
+  endif
+  let phase_name = 'phase_' .. g:autoplay_count
+  call autoplay#run(phase_name)
+  echo phase_name
+endfunction
+
+nnoremap # <cmd>call RunAutoplayByCount()<cr>
+```
+
+```vim
+" Full-featured example
 augroup autoplay-demo
   autocmd!
   autocmd User autoplay_start echomsg 'autoplay start!'
